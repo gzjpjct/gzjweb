@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>数据加载中</title>
+    <title>页面加载中...</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -31,8 +31,28 @@
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(30deg);
+            z-index: -1;
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: rotate(30deg) translateX(-100%); }
+            100% { transform: rotate(30deg) translateX(100%); }
         }
         
         .logo {
@@ -40,8 +60,9 @@
         }
         
         .logo i {
-            font-size: 4rem;
+            font-size: 5rem;
             color: #4facfe;
+            text-shadow: 0 0 15px rgba(79, 172, 254, 0.6);
             animation: pulse 2s infinite;
         }
         
@@ -52,7 +73,7 @@
         }
         
         h1 {
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             margin-bottom: 15px;
             font-weight: 600;
             background: linear-gradient(90deg, #4facfe, #00f2fe);
@@ -67,79 +88,81 @@
             color: rgba(255, 255, 255, 0.85);
         }
         
-        .loader-container {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.15);
-            height: 12px;
-            border-radius: 10px;
-            margin: 25px 0;
-            overflow: hidden;
+        .loader {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 30px;
             position: relative;
+        }
+        
+        .loader-inner {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 4px solid transparent;
+            border-top-color: #4facfe;
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
+        }
+        
+        .loader-inner:nth-child(2) {
+            border-top-color: #00f2fe;
+            animation-delay: -0.5s;
+            width: 70%;
+            height: 70%;
+            top: 15%;
+            left: 15%;
+        }
+        
+        .loader-inner:nth-child(3) {
+            border-top-color: #0072ff;
+            animation-delay: -1s;
+            width: 50%;
+            height: 50%;
+            top: 25%;
+            left: 25%;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .countdown {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin: 25px 0;
+            background: linear-gradient(90deg, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(79, 172, 254, 0.3);
+        }
+        
+        .message {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
         }
         
         .progress-bar {
             height: 100%;
             width: 0%;
             background: linear-gradient(90deg, #00c6ff, #0072ff);
-            border-radius: 10px;
-            transition: width 0.3s ease;
-            position: relative;
-        }
-        
-        .progress-bar::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 30%;
-            height: 100%;
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0.4), transparent);
-            animation: progressShine 1.5s infinite;
-        }
-        
-        @keyframes progressShine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(350%); }
-        }
-        
-        .progress-info {
-            display: flex;
-            justify-content: space-between;
-            margin: 10px 0 25px;
-            color: rgba(255, 255, 255, 0.9);
-        }
-        
-        .loading-text {
-            font-size: 1.1rem;
-            margin-top: 15px;
-            color: rgba(255, 255, 255, 0.9);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .loading-dots {
-            display: inline-block;
-            margin-left: 5px;
-        }
-        
-        .loading-dots span {
-            animation: blink 1.4s infinite both;
-            opacity: 0;
-        }
-        
-        .loading-dots span:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-        
-        .loading-dots span:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-        
-        @keyframes blink {
-            0% { opacity: 0; }
-            50% { opacity: 1; }
-            100% { opacity: 0; }
+            border-radius: 3px;
+            transition: width 0.5s ease;
         }
         
         .tip {
@@ -157,11 +180,15 @@
             }
             
             h1 {
-                font-size: 1.8rem;
+                font-size: 2rem;
             }
             
             .logo i {
-                font-size: 3.2rem;
+                font-size: 4rem;
+            }
+            
+            .countdown {
+                font-size: 3rem;
             }
         }
     </style>
@@ -169,62 +196,64 @@
 <body>
     <div class="container">
         <div class="logo">
-            <i class="fas fa-database"></i>
+            <i class="fas fa-rocket"></i>
         </div>
-        <h1>数据加载中</h1>
-        <p class="subtitle">正在准备您的数据，请稍候...</p>
+        <h1>即将跳转</h1>
+        <p class="subtitle">页面正在加载，请稍候...</p>
         
-        <div class="loader-container">
+        <div class="loader">
+            <div class="loader-inner"></div>
+            <div class="loader-inner"></div>
+            <div class="loader-inner"></div>
+        </div>
+        
+        <div class="countdown" id="countdown">3</div>
+        
+        <div class="progress-container">
             <div class="progress-bar" id="progressBar"></div>
         </div>
         
-        <div class="progress-info">
-            <div>当前进度</div>
-            <div id="percentage">0%</div>
-        </div>
-        
-        <p class="loading-text">
-            <i class="fas fa-spinner fa-spin"></i>
-            正在加载数据<span class="loading-dots">
-                <span>.</span>
-                <span>.</span>
-                <span>.</span>
-            </span>
+        <p class="message">
+            <i class="fas fa-info-circle"></i> 正在准备跳转到目标页面
         </p>
         
         <p class="tip">
-            数据加载速度取决于您的网络连接质量
+            如果页面没有自动跳转，请点击<a href="#" id="manualRedirect" style="color: #4facfe; text-decoration: none;">此处</a>
         </p>
     </div>
 
     <script>
-        // 模拟数据加载进度
+        // 倒计时和跳转功能
+        const countdownEl = document.getElementById('countdown');
         const progressBar = document.getElementById('progressBar');
-        const percentage = document.getElementById('percentage');
-        const loadingText = document.querySelector('.loading-text');
+        const manualRedirect = document.getElementById('manualRedirect');
+        let seconds = 3;
         
-        let progress = 0;
-        const interval = setInterval(() => {
-            // 随机增加进度，但接近100%时增长变慢
-            let increment = progress < 90 ? Math.random() * 4 : Math.random() * 2;
-            progress += increment;
+        // 更新进度条函数
+        function updateProgress(percent) {
+            progressBar.style.width = percent + '%';
+        }
+        
+        // 倒计时函数
+        const countdown = setInterval(() => {
+            seconds--;
+            countdownEl.textContent = seconds;
             
-            if (progress >= 100) {
-                progress = 100;
-                clearInterval(interval);
-                
-                // 加载完成后的效果
-                setTimeout(() => {
-                    loadingText.innerHTML = '<i class="fas fa-check-circle"></i> 数据加载完成！';
-                    document.querySelector('.tip').textContent = "准备就绪，即将进入应用...";
-                }, 500);
+            // 更新进度条（33%每秒）
+            updateProgress((3 - seconds) * 33.33);
+            
+            if (seconds <= 0) {
+                clearInterval(countdown);
+                // 跳转到目标页面（这里以百度为例）
+                window.location.href = "https://www.baidu.com";
             }
-            
-            // 更新进度条和百分比
-            progressBar.style.width = progress + '%';
-            percentage.textContent = Math.floor(progress) + '%';
-            
-        }, 200);
+        }, 1000);
+        
+        // 初始进度条更新
+        updateProgress(0);
+        
+        // 手动跳转链接
+        manualRedirect.href = "https://www.baidu.com";
     </script>
 </body>
 </html>
